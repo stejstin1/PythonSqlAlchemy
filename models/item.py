@@ -1,6 +1,7 @@
 from db import db
+from new_mixin import NewMixin
 
-class ItemModel(db.Model):
+class ItemModel(db.Model, NewMixin):
     __tablename__ = 'items'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,10 +17,7 @@ class ItemModel(db.Model):
     def find_all(cls):
         return cls.query.all()
 
-    def save_to_db(self):
-        db.session.add(self)
-        db.session.commit()
 
     def delete_from_db(self):
         db.session.delete(self)
-        db.session.commit
+        db.session.commit()

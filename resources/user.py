@@ -3,7 +3,6 @@ from flask_restful import Resource
 from flask import request
 from schemas.user import UserSchema
 from marshmallow import ValidationError
-import json
 
 user_schema = UserSchema()
 
