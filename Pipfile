@@ -8,6 +8,10 @@ flask = "*"
 flask-jwt = "*"
 flask-restful = "*"
 flask-sqlalchemy = "*"
+alembic = "*"
+marshmallow = "*"
+flask-marshmallow = "*"
+marshmallow-sqlalchemy = "*"
 
 [dev-packages]
 

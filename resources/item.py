@@ -1,36 +1,43 @@
 from models.item import ItemModel
-from flask_restful import Resource, reqparse
+from flask_restful import Resource
+from flask import request
+from marshmallow import ValidationError
+from schemas.item import ItemSchema
 from flask_jwt import jwt_required
 
+item_schema = ItemSchema()
+item_list_schema = ItemSchema(many=True)
+
 class Item(Resource):
-    parser = reqparse.RequestParser()
-    parser.add_argument('price',
-                        type=float,
-                        required=True,
-                        help="this field cannot be left blank!") #Can use this req parser to also go through form fields from html..may need to look into that!
 
     @jwt_required()
     def get(self, name):
         item = ItemModel.find_by_name(name)
         if item:
-            return item.json() #might need tto update with marchmellow?
+            return item_schema.dump(item)
         return {'message': 'Item not found'}, 404
 
-    def post(self, name):
-        #data = request.get_json()#force = true means you do not need a content-type header, silent = true makes it return none if it errors
+    def post(self, name:str): # /item/chair
         if ItemModel.find_by_name(name):
             return {'Message': "this '{}' already exists in the database".format(name)}, 400
 
-        data = Item.parser.parse_args()
+        #data = Item.parser.parse_args()
+        item_json = request.json # price
+        item_json['name'] = name
 
-        item = ItemModel(name, data['price'])
+        #item = ItemModel(name, data['price'])
+
+        try:
+            item = item_schema.load(item_json)
+        except ValidationError as err:
+            return err.messages, 400
+
         try:
             item.save_to_db()
-        except Exception as e:
-            #print("error: ", e)
-            return {'message': "an error occured inserting the item"}, 500
+        except:
+            return {'message': "Error inserting item"}, 500
 
-        return item.json(), 201 #Created status code, 202 is accepted
+        return item_schema.dump(item), 201 #Created status code, 202 is accepted
 
     def delete(self, name):
         item = ItemModel.find_by_name(name)
@@ -39,21 +46,24 @@ class Item(Resource):
 
         return {'Message': "Item has been deleted"}
 
-    def put(self, name):
-        data = Item.parser.parse_args()
-
+    def put(self, name:str):
+        item_json= request.json
         item = ItemModel.find_by_name(name)
 
         if item is None:
-            item = ItemModel(name, data['price'])
+            item_json['name'] = name
+            try:
+                item = item_schema.load(item_json)
+            except ValidationError as err:
+                return err.messages, 400
         else:
-            item.price = data['price']
+            item.price = item_json['price']
 
         item.save_to_db()
-        return item.json() #anywhere with .json might be with marshmellow?
+        return item_schema.dump(item)
 
 
 
 class Items(Resource):
     def get(self):
-        return {'items': [item.json() for item in ItemModel.query.all()]} #loops through all the items from the query and jsonifies it
+        return {'items': [item_list_schema.dump(ItemModel.find_all())]}
