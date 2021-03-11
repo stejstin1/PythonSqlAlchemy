@@ -6,6 +6,8 @@ class UserModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)#auto incremets since it is a primary key
     username = db.Column(db.String(80), nullable=False, unique=True)
     password = db.Column(db.String(80), nullable=False)
+    email = db.Column(db.String(80), nullable=False, unique=True)
+    surname = db.Column(db.String(80))
 
     def save_to_db(self):
         db.session.add(self)
