@@ -24,7 +24,11 @@ api.add_resource(Items, '/items')
 api.add_resource(Item, '/item/<string:name>')
 api.add_resource(UserRegister, '/register')
 
+@app.route('/')
+def Hello():
+    return "This app is running"
+
 if __name__ == '__main__':
     db.init_app(app)
     ma.init_app(app)
-    app.run(port=7000, debug=True)
+    app.run(host="0.0.0.0", port=9000, debug=True)
