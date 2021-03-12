@@ -1,0 +1,611 @@
+{
+	"info": {
+		"_postman_id": "65a47664-00d5-4b05-9af3-b16fdad696df",
+		"name": "RestApiTool",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "BudgetItems",
+			"item": [
+				{
+					"name": "getItems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05dbbbfb-eda2-4f50-9125-66e39ee9520c",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/items",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"items"
+							]
+						},
+						"description": "Gets items"
+					},
+					"response": []
+				},
+				{
+					"name": "get an item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c640714f-6df1-4d75-9e9f-e4307f5cab78",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT  {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/item/chair",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"chair"
+							]
+						},
+						"description": "Gets a specific item"
+					},
+					"response": []
+				},
+				{
+					"name": "add price to item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4364ff8d-4df7-4bee-9cf9-2c2d6a7d8e8b",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 201;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"price\": 29.99\n}"
+						},
+						"url": {
+							"raw": "{{url}}/item/chair",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"chair"
+							]
+						},
+						"description": "adds a price to a unique item"
+					},
+					"response": []
+				},
+				{
+					"name": "update/create item with price",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c7ae585b-c3ae-4ff2-bf23-2b5d4c115189",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 201;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"price\": 200\n}"
+						},
+						"url": {
+							"raw": "{{url}}/item/desk",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"desk"
+							]
+						},
+						"description": "This will create a new item, or update an existing one"
+					},
+					"response": []
+				},
+				{
+					"name": "delete an item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3d296a26-6a1e-4bee-ab9c-2f610d7049be",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{url}}/item/test",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"item",
+								"test"
+							]
+						},
+						"description": "deletes an item"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "/auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "caa6c7be-ce82-4a83-a99f-2a225bbd2bd3",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Access Token is not empty\"] = jsonData.access_token != undefined",
+									"",
+									"postman.setEnvironmentVariable(\"jwt_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"jose\",\n\t\"password\": \"asdf\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/auth",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "198f01f3-e673-4339-afbe-362426371d00",
+								"exec": [
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"jose\",\n\t\"password\": \"asdf\"\n}"
+						},
+						"url": {
+							"raw": "{{url}}/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "BudgetItems(docker)",
+			"item": [
+				{
+					"name": "getItems",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "05dbbbfb-eda2-4f50-9125-66e39ee9520c",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{dockerurl}}/items",
+							"host": [
+								"{{dockerurl}}"
+							],
+							"path": [
+								"items"
+							]
+						},
+						"description": "Gets items"
+					},
+					"response": []
+				},
+				{
+					"name": "get an item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c640714f-6df1-4d75-9e9f-e4307f5cab78",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "JWT  {{jwt_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{dockerurl}}/item/chair",
+							"host": [
+								"{{dockerurl}}"
+							],
+							"path": [
+								"item",
+								"chair"
+							]
+						},
+						"description": "Gets a specific item"
+					},
+					"response": []
+				},
+				{
+					"name": "add price to item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "4364ff8d-4df7-4bee-9cf9-2c2d6a7d8e8b",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 201;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"price\": 29.99\n}"
+						},
+						"url": {
+							"raw": "{{dockerurl}}/item/chair",
+							"host": [
+								"{{dockerurl}}"
+							],
+							"path": [
+								"item",
+								"chair"
+							]
+						},
+						"description": "adds a price to a unique item"
+					},
+					"response": []
+				},
+				{
+					"name": "update/create item with price",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "c7ae585b-c3ae-4ff2-bf23-2b5d4c115189",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 201;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"price\": 200\n}"
+						},
+						"url": {
+							"raw": "{{dockerurl}}/item/desk",
+							"host": [
+								"{{dockerurl}}"
+							],
+							"path": [
+								"item",
+								"desk"
+							]
+						},
+						"description": "This will create a new item, or update an existing one"
+					},
+					"response": []
+				},
+				{
+					"name": "delete an item",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "3d296a26-6a1e-4bee-ab9c-2f610d7049be",
+								"exec": [
+									"tests[\"Response time is less than 200ms\"] = responseTime < 200;",
+									"tests[\"status code is 200\"] = responseCode.code === 200;"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{dockerurl}}/item/test",
+							"host": [
+								"{{dockerurl}}"
+							],
+							"path": [
+								"item",
+								"test"
+							]
+						},
+						"description": "deletes an item"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth(docker)",
+			"item": [
+				{
+					"name": "/auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "caa6c7be-ce82-4a83-a99f-2a225bbd2bd3",
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"tests[\"Access Token is not empty\"] = jsonData.access_token != undefined",
+									"",
+									"postman.setEnvironmentVariable(\"jwt_token\", jsonData.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"jose\",\n\t\"password\": \"asdf\"\n}"
+						},
+						"url": {
+							"raw": "{{dockerurl}}/auth",
+							"host": [
+								"{{dockerurl}}"
+							],
+							"path": [
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/auth Register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "198f01f3-e673-4339-afbe-362426371d00",
+								"exec": [
+									"pm.test(\"Content-Type is present\", function () {",
+									"    pm.response.to.have.header(\"Content-Type\");",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"mike\",\n\t\"password\": \"asdf\",\n\t\"email\": \"mike@gmail.com\"\n}"
+						},
+						"url": {
+							"raw": "{{dockerurl}}/register",
+							"host": [
+								"{{dockerurl}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
